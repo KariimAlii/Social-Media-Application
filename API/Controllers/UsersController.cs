@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] // [controller] is a placeholder ===> Users
-    public class UsersController : ControllerBase
+
+    public class UsersController : BaseApiController
     {
         IUser db;
         public UsersController(IUser _db)
@@ -18,16 +17,18 @@ namespace API.Controllers
 
         // api/Users
         [HttpGet]
-        public async Task<IEnumerable<User>>  GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>>  GetUsers()
         {
             var users = await db.GetAllUsers();
-            return users;
+            //return Ok(users);
+            return users.ToList();
+            // https://www.tutorialsteacher.com/webapi/action-method-return-type-in-web-api
         }
 
 
         // api/Users/{id}
         [HttpGet("{id}")]
-        public async Task<User> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await db.GetUserById(id);
             return user;

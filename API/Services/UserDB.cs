@@ -20,6 +20,21 @@ namespace API.Services
         {
             return await context.Users.FindAsync(id);
         }
-
+        public async void AddUser(User newUser)
+        {
+            await context.Users.AddAsync(newUser);
+            await context.SaveChangesAsync();
+        }
+        public async Task<bool> isUserExists(string UserName,string Email)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == UserName.ToLower() || u.Email == Email.ToLower());
+            if (user == null) return false;
+            else return true;
+        }
+        public async Task<User> getUserByUserName(string UserName)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
+            return user;
+        }
     }
 }
