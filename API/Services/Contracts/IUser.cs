@@ -1,6 +1,6 @@
 ﻿using API.Models;
 
-namespace API.Services
+namespace API.Services.Contracts
 {
     public interface IUser
     {

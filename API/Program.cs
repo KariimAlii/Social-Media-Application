@@ -1,7 +1,12 @@
 
 using API.Data;
+using API.Extensions;
 using API.Services;
+using API.Services.Contracts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace API
 {
@@ -10,28 +15,34 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var MyPolicy = "_MyPolicy";
+
+
+            #region Getting Configuration from App.Settings
+            // First Method
+            //==============
+            //var provider = builder.Services.BuildServiceProvider();
+            //var configuration = provider.GetRequiredService<IConfiguration>();
+            //var tokenKey = configuration.GetValue<string>("TokenKey");
+
+            // Second Method
+            //==============
+            // use builder.Configuration
+            //var tokenKey = builder.Configuration.GetValue<string>("TokenKey");
+            #endregion
+
+
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(name: MyPolicy, policy =>
-                {
-                    policy.WithOrigins("https://localhost:4200/")   // you can use .AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
-                // https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-7.0
-                // https://code-maze.com/enabling-cors-in-asp-net-core/
-            builder.Services.AddSingleton<IUser, UserDB>();
-            builder.Services.AddDbContext<DataContext>(a =>
-            {
-                a.UseSqlServer(builder.Configuration.GetConnectionString("Connection1"));
-                //a.UseLazyLoadingProxies();
 
-            }, ServiceLifetime.Singleton);
+            //
+            builder.Services.AddApplicationServices(builder.Configuration);
+
+            var PolicyName = "_PolicyName";
+            builder.Services.AddCorsServices(PolicyName);
+
+            builder.Services.AddIdentityServices(builder.Configuration);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -53,11 +64,12 @@ namespace API
                 await next();
             });
             app.UseHttpsRedirection();
-            app.UseCors(MyPolicy);
+            app.UseCors(PolicyName);
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-
+            // Note : ( UseCors ==> UseAuthentication ==> UseAuthorization ) have to be in this order
             app.MapControllers();
 
             app.Run();

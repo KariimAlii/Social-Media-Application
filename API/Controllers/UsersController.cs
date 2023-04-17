@@ -1,5 +1,6 @@
 ﻿using API.Models;
-using API.Services;
+using API.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace API.Controllers
 
 
         // api/Users
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>>  GetUsers()
         {
@@ -27,6 +29,7 @@ namespace API.Controllers
 
 
         // api/Users/{id}
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {

@@ -7,7 +7,7 @@ namespace API.DTOs
         [Required(ErrorMessage = "Please Enter Your Name!!")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Please Enter Your Email!!")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Invalid Email!!")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Please Enter Your Password!!")]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,20}$", ErrorMessage = "Password must be at least 4 characters, no more than 20 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit.")]
