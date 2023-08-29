@@ -1,6 +1,6 @@
-﻿namespace API.DTOs
+﻿namespace ModelLayer.Models
 {
-    public class LoginDto
+    public class LoginModel
     {
         public string UserName { get; set; }
         public string password { get; set; }

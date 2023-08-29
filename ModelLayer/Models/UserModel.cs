@@ -1,6 +1,6 @@
-﻿namespace API.DTOs
+﻿namespace ModelLayer.Models
 {
-    public class UserDto
+    public class UserModel
     {
         public string Username { get; set; }
         public string Email { get; set; }

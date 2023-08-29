@@ -1,27 +1,26 @@
-﻿using API.Models;
-using API.Services.Contracts;
+﻿using API.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModelLayer.Models;
 
 namespace API.Controllers
 {
 
     public class UsersController : BaseApiController
     {
-        IUser db;
-        public UsersController(IUser _db)
+        IUserService _userService;
+        public UsersController(IUserService userService)
         {
-            db = _db;
+            _userService = userService;
         }
 
 
         // api/Users
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>>  GetUsers()
+        public async Task<ActionResult<IEnumerable<UserModel>>>  GetUsers()
         {
-            var users = await db.GetAllUsers();
+            var users = await _userService.GetAllUsers();
             //return Ok(users);
             return users.ToList();
             // https://www.tutorialsteacher.com/webapi/action-method-return-type-in-web-api
@@ -31,9 +30,9 @@ namespace API.Controllers
         // api/Users/{id}
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserModel>> GetUser(int id)
         {
-            var user = await db.GetUserById(id);
+            var user = await _userService.GetUserById(id);
             return user;
         }
     }

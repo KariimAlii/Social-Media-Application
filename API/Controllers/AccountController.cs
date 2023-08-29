@@ -1,11 +1,7 @@
-﻿
-using API.Data;
-using API.DTOs;
-using API.Models;
-using API.Services.Contracts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using API.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using ModelLayer.Models;
+using ServiceLayer.Services.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -13,65 +9,65 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly IUser db;
-        private readonly ITokenService tokenService;
+        private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(IUser _db , ITokenService _tokenService)
+        public AccountController(IUserService userService, ITokenService tokenService)
         {
-            db = _db;
-            tokenService = _tokenService;
+            _userService = userService;
+            _tokenService = tokenService;
         }
 
 
         // api/Account/register
-        [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
-        {
-            var isUserExist = await db.isUserExists(registerDto.UserName,registerDto.Email);
-            if (isUserExist) return BadRequest("UserName is taken");
+        //[HttpPost("register")]
+        //public async Task<ActionResult<UserModel>> Register(RegisterModel registerModel)
+        //{
+        //    var isUserExist = await _userService.isUserExists(registerModel.UserName, registerModel.Email);
+        //    if (isUserExist) return BadRequest("UserName is taken");
 
-            using var hmac = new HMACSHA512();
+        //    using var hmac = new HMACSHA512();
 
-            var user = new User()
-            {
-                UserName = registerDto.UserName.ToLower(),
-                Email = registerDto.Email.ToLower() ,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
-                PasswordSalt = hmac.Key,
-                Age = registerDto.Age
-            };
-            db.AddUser(user);
+        //    var user = new UserModel()
+        //    {
+        //        UserName = registerModel.UserName.ToLower(),
+        //        Email = registerModel.Email.ToLower(),
+        //        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerModel.password)),
+        //        PasswordSalt = hmac.Key,
+        //        Age = registerModel.Age
+        //    };
+        //    _userService.AddUser(user);
 
-            return new UserDto
-            {
-                Username = user.UserName,
-                Email = user.Email,
-                Token = tokenService.CreateToken(user)
-            };
-        }
+        //    return new UserModel
+        //    {
+        //        Username = user.UserName,
+        //        Email = user.Email,
+        //        Token = _tokenService.CreateToken(user)
+        //    };
+        //}
 
 
         // api/Account/login
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var user = await db.getUserByUserName(loginDto.UserName);
-            if (user == null) return Unauthorized("Invalid Username");
+        //[HttpPost("login")]
+        //public async Task<ActionResult<UserModel>> Login(LoginModel loginDto)
+        //{
+        //    var user = await _userService.getUserByUserName(loginDto.UserName);
+        //    if (user == null) return Unauthorized("Invalid Username");
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.password));
+        //    using var hmac = new HMACSHA512(user.PasswordSalt);
+        //    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.password));
 
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
-            }
+        //    for (int i = 0; i < computedHash.Length; i++)
+        //    {
+        //        if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+        //    }
 
-            return new UserDto
-            {
-                Username = user.UserName,
-                Email = user.Email,
-                Token = tokenService.CreateToken(user)
-            };
-        }
+        //    return new UserModel
+        //    {
+        //        Username = user.UserName,
+        //        Email = user.Email,
+        //        Token = _tokenService.CreateToken(user)
+        //    };
+        //}
     }
 }

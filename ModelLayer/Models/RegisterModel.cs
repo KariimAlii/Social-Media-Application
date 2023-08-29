@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs
+namespace ModelLayer.Models
 {
-    public class RegisterDto
+    public class RegisterModel
     {
         [Required(ErrorMessage = "Please Enter Your Name!!")]
         public string UserName { get; set; }

@@ -1,19 +1,20 @@
-﻿using API.Models;
+﻿
+using EntityLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Data
+namespace DataAccessLayer.Data
 {
     public class DataContext : DbContext
     {
         // Dependency Injection Constructor
-        public DataContext(DbContextOptions options) : base(options) { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         // Default Constructor
         protected DataContext() { }
         public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=SocialAppDB;Trusted_Connection=true;");
+            //optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=SocialAppDB;Trusted_Connection=true;");
             //optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
         }

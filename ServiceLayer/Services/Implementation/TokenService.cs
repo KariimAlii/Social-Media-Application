@@ -1,12 +1,13 @@
-﻿using API.Models;
-using API.Services.Contracts;
-//using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using ModelLayer.Models;
+using ServiceLayer.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace API.Services
+namespace ServiceLayer.Services.Implementation
 {
     public class TokenService : ITokenService
     {
@@ -16,12 +17,12 @@ namespace API.Services
             key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
         // https://galdin.dev/blog/you-dont-need-iconfiguration-outside-startup/
-        public string CreateToken(User user)
+        public string CreateToken(UserModel user)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId,user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email,user.Email)
+                //new Claim(JwtRegisteredClaimNames.NameId,user.UserName),
+                //new Claim(JwtRegisteredClaimNames.Email,user.Email)
             };
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

@@ -1,30 +1,16 @@
-﻿using API.Data;
-using API.Services.Contracts;
-using API.Services;
+﻿using API.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.Services.Implementation;
+using ServiceLayer.Services.Interfaces;
+using DataAccessLayer.Data;
 
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        //public static void AddApplicationServices(ref WebApplicationBuilder builder)
-        //{
-        //    builder.Services.AddSingleton<IUser, UserDB>();
-        //    builder.Services.AddScoped<ITokenService, TokenService>();
-        //    var _builder = builder;
-        //    builder.Services.AddDbContext<DataContext>(options =>
-        //    {
-        //        options.UseSqlServer(_builder.Configuration.GetConnectionString("Connection1"));
-        //        //options.UseLazyLoadingProxies();
-
-        //    }, ServiceLifetime.Singleton);
-        //}
-
-        // To Call at Program.cs ===> ApplicationServiceExtensions.AddApplicationServices(ref builder);
-
         public static IServiceCollection AddApplicationServices(this IServiceCollection services , ConfigurationManager config)
         {
-            services.AddSingleton<IUser, UserDB>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddDbContext<DataContext>(options =>
             {
