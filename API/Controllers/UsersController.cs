@@ -1,7 +1,7 @@
 ﻿using API.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModelLayer.Models;
+using ModelLayer.Models.User;
 
 namespace API.Controllers
 {

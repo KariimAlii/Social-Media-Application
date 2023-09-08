@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EntityLayer.Entities;
-using ModelLayer.Models;
+using ModelLayer.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

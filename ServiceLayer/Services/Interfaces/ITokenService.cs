@@ -1,5 +1,4 @@
-﻿
-using ModelLayer.Models;
+﻿using ModelLayer.Models.User;
 
 namespace ServiceLayer.Services.Interfaces
 {

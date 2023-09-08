@@ -1,19 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ModelLayer.Models
+namespace ModelLayer.Models.User
 {
     public class RegisterModel
     {
         [Required(ErrorMessage = "Please Enter Your Name!!")]
         public string UserName { get; set; }
+
+
         [Required(ErrorMessage = "Please Enter Your Email!!")]
         [EmailAddress(ErrorMessage = "Invalid Email!!")]
         public string Email { get; set; }
+
+
         [Required(ErrorMessage = "Please Enter Your Password!!")]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,20}$", ErrorMessage = "Password must be at least 4 characters, no more than 20 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit.")]
-        public string password { get; set; }
+        public string Password { get; set; }
+
+
         [Required(ErrorMessage = "Please Enter Your Age!!")]
-        [Range(18,100,ErrorMessage = "You have to be 18+ to be able to register")]
+        [Range(18, 100, ErrorMessage = "You have to be 18+ to be able to register")]
         public int Age { get; set; }
     }
 }

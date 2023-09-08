@@ -35,13 +35,17 @@ namespace API
 
             builder.Services.AddControllers();
 
-            //
-            builder.Services.AddApplicationServices(builder.Configuration);
+            #region Custom Extensions
+            builder.Services.AddServices();
+            builder.Services.AddRepoInjection();
+            builder.Services.AddDatabaseServices();
+            builder.Services.AddAutoMapperServices();
 
             var PolicyName = "_PolicyName";
             builder.Services.AddCorsServices(PolicyName);
 
-            builder.Services.AddIdentityServices(builder.Configuration);
+            builder.Services.AddIdentityServices(); 
+            #endregion
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

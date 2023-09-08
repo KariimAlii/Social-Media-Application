@@ -6,13 +6,13 @@ namespace API.Extensions
 {
     public static class IdentityServiceExtensions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services , ConfigurationManager config)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services )
         {
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    var tokenKey = config.GetValue<string>("TokenKey");
+                    var tokenKey = services.BuildServiceProvider().GetService<IConfiguration>().GetValue<string>("TokenKey");
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true, // our server will sign the token

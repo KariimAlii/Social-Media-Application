@@ -1,4 +1,4 @@
-﻿using ModelLayer.Models;
+﻿using ModelLayer.Models.User;
 
 namespace API.Services.Contracts
 {

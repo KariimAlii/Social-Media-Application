@@ -3,7 +3,7 @@ using AutoMapper;
 using DataAccessLayer.Data;
 using DataAccessLayer.UnitOfWork;
 using EntityLayer.Entities;
-using ModelLayer.Models;
+using ModelLayer.Models.User;
 
 namespace ServiceLayer.Services.Implementation
 {

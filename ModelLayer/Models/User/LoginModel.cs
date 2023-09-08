@@ -1,4 +1,4 @@
-﻿namespace ModelLayer.Models
+﻿namespace ModelLayer.Models.User
 {
     public class LoginModel
     {
